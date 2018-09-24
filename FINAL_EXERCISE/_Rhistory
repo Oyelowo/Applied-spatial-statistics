@@ -1,0 +1,512 @@
+# Insignificant correlation are crossed
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "pch")
+# Insignificant correlations are left blank
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "blank")
+#HR_KTU, TR_KTU are highly correlated. so, I'll remove one of it.
+cor(HR_OVY, KO_AMMAT)
+data <- popHel[ ,c("HE_KIKA","KO_AMMAT","HR_MTU","HR_OVY","TR_KTU",
+"TR_MTU","TP_ALKU_A","TP_PALV_GU",
+"TP_B_KAIV","TP_G_KAUP","TP_H_KULJ","TP_O_JULK",
+"PT_TYOVY","PT_0_14")]
+corHel<-cor(data, method = "spearman")
+corHel
+corrplot(corHel, type = "upper", order = "hclust",
+tl.col = "black", tl.srt = 45)
+# install.packages("Hmisc")
+library(Hmisc)
+corHel2 <- rcorr(as.matrix(data))
+corHel2
+# Insignificant correlation are crossed
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "pch")
+# Insignificant correlations are left blank
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "blank")
+data <- popHel[ ,c("HE_KIKA","KO_AMMAT","HR_MTU","TR_KTU",
+"TR_MTU","TP_ALKU_A","TP_PALV_GU",
+"TP_B_KAIV","TP_G_KAUP","TP_H_KULJ","TP_O_JULK",
+"PT_TYOVY","PT_0_14")]
+corHel<-cor(data, method = "spearman")
+corHel
+corrplot(corHel, type = "upper", order = "hclust",
+tl.col = "black", tl.srt = 45)
+# install.packages("Hmisc")
+library(Hmisc)
+corHel2 <- rcorr(as.matrix(data))
+corHel2
+# Insignificant correlation are crossed
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "pch")
+# Insignificant correlations are left blank
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "blank")
+#summarize the OLS model
+summary(OLS)
+data <- popHel[ ,c("HE_KIKA","KO_AMMAT","HR_MTU","TR_KTU",
+"TR_MTU","TP_ALKU_A","TP_PALV_GU",
+"TP_B_KAIV","TP_G_KAUP","TP_H_KULJ","TP_O_JULK",
+"PT_TYOVY")]
+corHel<-cor(data, method = "spearman")
+corHel
+corrplot(corHel, type = "upper", order = "hclust",
+tl.col = "black", tl.srt = 45)
+# install.packages("Hmisc")
+library(Hmisc)
+corHel2 <- rcorr(as.matrix(data))
+corHel2
+# Insignificant correlation are crossed
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "pch")
+# Insignificant correlations are left blank
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "blank")
+KO_AMMAT
+cor(TP_ATP_ALKU_A, TP_B_KAIV)
+cor(TP_ALKU_A, TP_B_KAIV)
+data <- popHel[ ,c("HE_KIKA","TR_KTU",
+"TR_MTU","TP_ALKU_A","TP_PALV_GU",
+"TP_B_KAIV","TP_G_KAUP","TP_H_KULJ","TP_O_JULK",
+"PT_TYOVY")]
+corHel<-cor(data, method = "spearman")
+corHel
+corrplot(corHel, type = "upper", order = "hclust",
+tl.col = "black", tl.srt = 45)
+corHel2 <- rcorr(as.matrix(data))
+corHel2
+# install.packages("Hmisc")
+library(Hmisc)
+# Insignificant correlation are crossed
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "pch")
+# Insignificant correlations are left blank
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "blank")
+cor(KO_AL_KORK, TE_ELAK)
+data <- popHel[ ,c("HE_KIKA","TR_KTU",
+"TP_ALKU_A","TP_PALV_GU",
+"TP_B_KAIV","TP_G_KAUP","TP_H_KULJ","TP_O_JULK",
+"PT_TYOVY")]
+corHel<-cor(data, method = "spearman")
+corHel
+corrplot(corHel, type = "upper", order = "hclust",
+tl.col = "black", tl.srt = 45)
+# install.packages("Hmisc")
+library(Hmisc)
+corHel2 <- rcorr(as.matrix(data))
+corHel2
+# Insignificant correlation are crossed
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "pch")
+# Insignificant correlations are left blank
+corrplot(corHel2$r, type="upper", order="hclust",
+p.mat = corHel2$P, sig.level = 0.05, insig = "blank")
+cor(TP_PALV_GU, TP_G_KAUP)
+TP_PALV_GU
+cor(TP_PALV_GU, TP_O_JULK)
+data <- popHel[ ,c("HE_KIKA","TR_KTU",
+"TP_ALKU_A","TP_PALV_GU",
+"TP_B_KAIV","TP_H_KULJ","TP_O_JULK",
+"PT_TYOVY")]
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA,TR_KTU,
+TP_ALKU_A,TP_PALV_GU,
+TP_B_KAIV,TP_H_KULJ,TP_O_JULK,
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA,
+TP_ALKU_A,TP_PALV_GU,
+TP_B_KAIV,TP_H_KULJ,TP_O_JULK,
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA,
+TP_ALKU_A,TP_PALV_GU,
+TP_B_KAIV,TP_H_KULJ,TP_O_JULK,
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA,
+TP_ALKU_A,TP_PALV_GU,
+TP_B_KAIV,TP_H_KULJ,TP_O_JULK,
+PT_TYOVY)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+TP_H_KULJ+
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+PT_TYOVY)
+summary(OLS)
+# OLS2<-lm(PT_TYOTT ~KO_KOUL + TR_KTU)
+OLS2<-lm(PT_TYOLL ~KO_KOUL)
+summary(OLS2)
+plot(PT_TYOTT, KO_KOUL)
+plot(PT_TYOLL, KO_KOUL)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK,
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK,
+PT_TYOVY)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK,
+PT_TYOVY)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+rm(list=ls())
+setwd("C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/FINAL_EXERCISE")
+library(spdep)
+library(foreign)
+library(corrplot)
+library(MASS)
+#file path
+popHel_fp<-"C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/FINAL_EXERCISE/Helsinki_Area.dbf"
+#read data
+popHel <- read.dbf(file=popHel_fp)
+#create a new ID column
+popHel$ID<-c(1:nrow(popHel))
+#attach data to memory
+attach(popHel)
+#inspect data
+names(popHel)
+summary(popHel)
+summary(HE_VAKIY)
+hist(HE_VAKIY, breaks = 5)
+plot(CRIM, CMEDV, main="median house value vs crime")
+te_nuor
+TE_NUOR
+#load spatial weights
+geoda_weights <- read.gal("Helsinki_queen.gal")
+#try
+geoda_weights <- read.gwt2nb("Helsinki_knn.gwt")
+#visualize connectivity
+plot.nb(geoda_weights,cbind(EUREF_X,EUREF_Y),col="red")
+# the imported weights are in fact something called a "neighbors list". R understands a
+# different version called "listw", and so you need to make this conversion. To achieve that for the
+# two weight files imported above, type:
+#convert weights to R-workable format
+# weights <- nb2listw(geoda_weights)
+weights <- nb2listw(geoda_weights, zero.policy = T)
+#for extra explorations:
+#make a sparse spatial weights matrix
+W <- as(as_dgRMatrix_listw(weights), "CsparseMatrix")
+#display the matrix
+W
+image(W)
+toupper("he_vakiy", "he_miehet", "he_naiset", "he_kika", "ko_perus",
+"ko_koul", "ko_yliop", "ko_ammat" , "ko_al_kork", "ko_yl_kork",
+"hr_tuy","hr_ktu", "hr_mtu", "hr_ovy" ,"te_eil_np","te_aik",
+"te_elak", "te_omis_as" , "te_vuok_as", "te_muu_as" , "tr_ovy",
+"tr_ktu" , "tr_mtu","tr_pi_tul" , "tr_ke_tul" , "tr_hy_tul" ,
+"pt_opisk" , "pt_elakel")
+#change the predictors to upper case
+pred_lower<-(toupper("he_vakiy, he_miehet , he_naiset , he_kika, ko_perus, ko_koul , ko_yliop , ko_ammat , ko_al_kork, ko_yl_kork , hr_tuy , hr_ktu , hr_mtu , hr_ovy , te_eil_np ,te_aik, te_elak, te_omis_as , te_vuok_as , te_muu_as , tr_ovy, tr_ktu , tr_mtu,tr_pi_tul , tr_ke_tul , tr_hy_tul , pt_opisk , pt_elakel "))
+#replace the comma(,) with addition sign(+)
+pred_upper<-gsub(",", "+", pred_lower)
+popHel2<- popHel
+pred_upper
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY)
+summary(OLS)
+stepAIC(OLS)
+OLS <- lm(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_ALKU_A + TP_H_KULJ + TP_O_JULK + PT_TYOVY)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  . )
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~. , data=popHel2 )
+summary(OLS)
+stepAIC(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP +)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP)
+summary(OLS)
+stepAIC(OLS)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT)
+summary(OLS)
+stepAIC(OLS)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET)
+summary(OLS)
+stepAIC(OLS)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS)
+summary(OLS)
+stepAIC(OLS)
+OLS <- lm(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS)
+summary(OLS)
+stepAIC(OLS)
+zg<-("HE_KIKA +KO_AMMAT+HR_MTU+HR_OVY+TR_KTU+TR_MTU+TR_PI_TUL+PT_OPISK+TP_ALKU_A+TP_PALV_GU+TP_B_KAIV+TP_G_KAUP+TP_H_KULJ+TP_O_JULK+PT_VAKIY + PT_TYOVY +   PT_0_14 + PT_ELAKEL + PT_MUUT")
+gsub("+", ",", zg)
+#After applying sptewise regression
+OLS2<-lm(PT_TYOTT ~ HE_MIEHET + KO_PERUS + KO_KOUL + KO_YLIOP +
+KO_AMMAT + KO_AL_KORK + HR_KTU + HR_OVY + TE_EIL_NP + TE_ELAK +
+TE_VUOK_AS + TR_OVY + TR_KTU + TR_PI_TUL + PT_OPISK + PT_ELAKEL +
+TE_MUU_AS)
+library(gbm)
+sales_gbm1<-gbm(formula = PT_TYOTT~., data=popHel3,
+distribution = "poisson",n.trees = 2300, shrinkage = 0.001, interaction.depth = 6,
+bag.fraction = 0.75, verbose = F)
+sales_gbm1<-gbm(formula = PT_TYOTT~., data=popHel,
+distribution = "poisson",n.trees = 2300, shrinkage = 0.001, interaction.depth = 6,
+bag.fraction = 0.75, verbose = F)
+summary(sales_gbm1)
+sales_gbm1<-gbm(formula = HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel,
+distribution = "poisson",n.trees = 2300, shrinkage = 0.001, interaction.depth = 6,
+bag.fraction = 0.75, verbose = F)
+HR_KTU
+sales_gbm1<-gbm(formula = HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel,
+distribution = "gaussian",n.trees = 2300, shrinkage = 0.001, interaction.depth = 6,
+bag.fraction = 0.75, verbose = F)
+summary(sales_gbm1)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+ PT_TYOLL
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS)
+summary(OLS)
+stepAIC(OLS)
+summary(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+ PT_TYOLL
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+ PT_TYOLL+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS)
+summary(OLS)
+stepAIC(OLS)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(HR_KTU ~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+ PT_TYOLL+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS+ TR_PI_TUL + TR_KE_TUL + TR_HY_TUL)
+summary(OLS)
+stepAIC(OLS)
+OLS<-lm(formula = HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_AL_KORK + HE_MIEHET + KO_PERUS +
+TR_HY_TUL)
+summary(OLS)
+OLS<-lm(formula = HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_O_JULK + KO_AL_KORK + HE_MIEHET + KO_PERUS +
+TR_HY_TUL)
+summary(OLS)
+OLS<-lm(formula = HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_O_JULK + HE_MIEHET + KO_PERUS +
+TR_HY_TUL)
+summary(OLS)
+OLS <- lm(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS)
+summary(OLS)
+stepAIC(OLS)
+summary(OLS)
+OLS <- lm(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT +
+KO_PERUS)
+summary(OLS)
+OLS <- lm(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS)
+summary(OLS)
+sales_gbm1<-gbm(formula = HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel,
+distribution = "gaussian",n.trees = 2300, shrinkage = 0.001, interaction.depth = 6,
+bag.fraction = 0.75, verbose = F)
+summary(sales_gbm1)
+#file path
+popHel_shp_fp<-"C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/FINAL_EXERCISE/Helsinki_Area.shp"
+popHel_shp <- readShapeSpatial(popHel_shp_fp)
+library(spdep)
+library(foreign)
+library(corrplot)
+library(MASS)
+popHel_shp <- readShapeSpatial(popHel_shp_fp)
+library(maptools)
+popHel_shp <- readShapeSpatial(popHel_shp_fp)
+spplot(popHel_shp, "CRIME", main="Columbus, OH", sub="Residential
+burglaries and vehicle thefts per 1000 households")
+spplot(popHel_shp, "HR_KTU", main="Columbus, OH", sub="Residential
+burglaries and vehicle thefts per 1000 households")
+spplot(popHel_shp, "HR_KTU", main="Helsinki,", sub="Average income of inhabitants")
+bw <- gwr.sel(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel_shp, method="aic")
+bw <- gwr.sel(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel_shp, method="aic")
+library(spData)
+bw <- gwr.sel(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel_shp, method="aic")
+library(spdep)
+bw <- gwr.sel(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel_shp, method="aic")
+library(spgwr)
+bw <- gwr.sel(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel_shp, method="aic")
+gwr <- gwr(HR_KTU ~ HE_KIKA + HR_OVY + KO_KOUL + PT_TYOTT +
+TP_PALV_GU + TP_O_JULK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+KO_PERUS, data=popHel_shp, bandwidth=bw,
+hatmatrix=TRUE)
+gwr
+spplot(gwr$SDF, "localR2", main="local R-squared")
+spplot(gwr$SDF, "HE_KIKA", main="Income")
+spplot(gwr$SDF, "KO_KOUL", main="Housing value")
+spplot(gwr$SDF, "HE_MIEHET", main="Distance to the CBD")
+spplot(gwr$SDF, "PT_TYOTT", main="Distance to the CBD")
+spplot(gwr$SDF, "HE_KIKA", main="Average age of inhabitants")
+spplot(gwr$SDF, "KO_KOUL", main="people with at least an upper secondary qualification")
+spplot(gwr$SDF, "PT_TYOTT", main="Unemployed labour force")
+gwr$SDF$HE_KIKA_t <- gwr$SDF$HE_KIKA/gwr$SDF$HE_KIKA_se
+gwr$SDF$KO_KOUL_t <- gwr$SDF$KO_KOUL/gwr$SDF$KO_KOUL_se
+gwr$SDF$PT_TYOTT_t <- gwr$SDF$PT_TYOTT/gwr$SDF$PT_TYOTT_se
+pplot(gwr$SDF, c("HE_KIKA_t", "KO_KOUL_t", "PT_TYOTT_t"))
+spplot(gwr$SDF, c("HE_KIKA_t", "KO_KOUL_t", "PT_TYOTT_t"))
+gwr
+gwr
+gwr
+OLS_NUOR <- lm( TE_NUOR~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+ PT_TYOLL+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_NUOR+ TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS+ TR_PI_TUL + TR_KE_TUL + TR_HY_TUL)
+Summary(OLS_NUOR)
+OLS_NUOR <- lm( TE_NUOR~  HE_KIKA+ HR_OVY+ KO_KOUL+ PT_TYOTT+ PT_TYOLL+
+TP_ALKU_A+TP_PALV_GU+
+TP_B_KAIV+TP_H_KULJ+TP_O_JULK+
+PT_TYOVY + TE_EIL_NP + KO_AL_KORK+
+KO_YL_KORK+KO_AMMAT + HE_MIEHET+HE_NAISET+
+KO_PERUS+ TR_PI_TUL + TR_KE_TUL + TR_HY_TUL)
+Summary(OLS_NUOR)
+summary(OLS_NUOR)
+stepAIC(OLS_NUOR)
+OLS_NUOR <- lm(formula = TE_NUOR ~ KO_KOUL + PT_TYOTT + PT_TYOLL + TP_ALKU_A +
+TE_EIL_NP + KO_AL_KORK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+HE_NAISET + KO_PERUS + TR_PI_TUL + TR_KE_TUL + TR_HY_TUL)
+summary(OLS_NUOR)
+OLS_NUOR <- lm(formula = TE_NUOR ~ KO_KOUL + PT_TYOTT + PT_TYOLL +
+TE_EIL_NP + KO_AL_KORK + KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+HE_NAISET + KO_PERUS + TR_PI_TUL + TR_KE_TUL + TR_HY_TUL)
+summary(OLS_NUOR)
+OLS_NUOR <- lm(formula = TE_NUOR ~ KO_KOUL + PT_TYOTT + PT_TYOLL +
+TE_EIL_NP +  KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+HE_NAISET + KO_PERUS + TR_PI_TUL + TR_KE_TUL + TR_HY_TUL)
+summary(OLS_NUOR)
+OLS_NUOR <- lm(formula = TE_NUOR ~ KO_KOUL + PT_TYOTT + PT_TYOLL +
+KO_YL_KORK + KO_AMMAT + HE_MIEHET +
+HE_NAISET + KO_PERUS + TR_PI_TUL + TR_KE_TUL + TR_HY_TUL)
+summary(OLS_NUOR)

@@ -1,0 +1,512 @@
+#########
+#mean error and root mean square error
+#calculate the mean error
+error_sales_glm<- cbind.data.frame(sales_glm_pred, eva$Total.Volume.Sales)
+colnames(error_sales_glm) <- c("pred_glm_sales", "obs_sales")
+#Use the function created earlier to calulcate the mean error and RMSE.
+#Mean error
+sales_glm_me <- mean_error(error_sales_glm$obs_sales, error_sales_glm$pred_glm_sales)
+#RMSE
+sales_glm_rmse <- rmse(error_sales_glm$obs_sales, error_sales_glm$pred_glm_sales)
+#combine the dataframe of the mean error and RMSE
+me_rmse_sales_glm <- rbind.data.frame(sales_glm_me, sales_glm_rmse)
+#Change the column name to something more descriptive.
+colnames(me_rmse_sales_glm)<- c("sales_glm")
+#GAM
+sales_gam <- gam(Total.Volume.Sales~ s(Weighted.Average.Price, k=3) +
+s(Distribution , k=3) + Price.Promotion.1 +
+Price.Promotion.2 + On.pack.Promo.Offer +
+Rebrand+ TV + Radio+ Press+
+Outdoor+ s(Online, k=3), data = cal, family = "gaussian")
+sales_gam_pred <- predict.gam(sales_gam, newdata = eva, type = "response")
+obs_pred_sales_gam<- cbind.data.frame(sales_gam_pred, eva$Total.Volume.Sales)
+colnames(obs_pred_sales_gam) <- c("pred_gam_sales", "obs_gam_sales")
+#you can just calclate the correlation straight away
+cor_gam_sales <- cor(sales_gam_pred, eva$Total.Volume.Sales, method = "pearson")
+r2_gam_all[i]<-cor_gam_sales^2
+#########
+#mean error and root mean square error
+error_sales_gam<- cbind.data.frame(sales_gam_pred, eva$Total.Volume.Sales)
+colnames(error_sales_gam) <- c("pred_gam_sales", "obs_sales")
+sales_gam_me <- mean_error(error_sales_gam$obs_sales, error_sales_gam$pred_gam_sales)
+sales_gam_rmse <- rmse(error_sales_gam$obs_sales, error_sales_gam$pred_gam_sales)
+me_rmse_sales_gam <- rbind.data.frame(sales_gam_me, sales_gam_rmse)
+colnames(me_rmse_sales_gam)<- c("sales_gam")
+###################################################################
+#using the normal gbm, package.
+#GBM
+# sales_gbm1 <- gbm.step(data=cal, gbm.x =c('Weighted.Average.Price', 'Distribution', 'Price.Promotion.1',
+#                                           'Price.Promotion.2', 'On.pack.Promo.Offer', 'Rebrand', 'TV', 'Radio',
+#                                           'Press', 'Outdoor', 'Online'), gbm.y = "Total.Volume.Sales",
+#                        bag.fraction=0.75, learning.rate = 0.001,
+#                        family="gaussian",n.trees=50, n.folds=10,
+#                        max.trees = 1000, tree.complexity = 6)
+sales_gbm1<-gbm(formula = Total.Volume.Sales~., data=cal,
+distribution = "gaussian",n.trees = 2300, shrinkage = 0.001, interaction.depth = 6,
+bag.fraction = 0.75, verbose = F)
+# cor(sales_gbm1_pred, data3$Total.Volume.Sales)
+best.iter<-gbm.perf(sales_gbm1, plot.it = F, method = "OOB")
+# sales_gbm1_pred <- predict.gbm(sales_gbm1, newdata = eva, n.trees=sales_gbm1$n.trees, type = "response")
+sales_gbm1_pred<- predict.gbm(object = sales_gbm1, newdata = eva, best.iter, type="response")
+cor_gbm1_sales <- cor(sales_gbm1_pred, eva$Total.Volume.Sales, method = "pearson")
+r2_gbm1_all[i]<-cor_gbm1_sales^2
+#########
+#mean error and root mean square error
+error_sales_gbm1<- cbind.data.frame(sales_gbm1_pred, eva$Total.Volume.Sales)
+colnames(error_sales_gbm1) <- c("pred_gbm1_sales", "obs_sales")
+sales_gbm1_me <- mean_error(error_sales_gbm1$obs_sales, error_sales_gbm1$pred_gbm1_sales)
+sales_gbm1_rmse <- rmse(error_sales_gbm1$obs_sales, error_sales_gbm1$pred_gbm1_sales)
+me_rmse_sales_gbm1 <- rbind.data.frame(sales_gbm1_me, sales_gbm1_rmse)
+colnames(me_rmse_sales_gbm1)<- c("sales_gbm1")
+}}
+library(dplyr)
+library(ggplot2)
+library(corrplot)
+library(GGally)
+library(tidyr)
+library(tidyverse)
+library(gbm)
+library(dismo)
+library(caTools)
+library(mgcv)
+library(MASS)
+library(FactoMineR)
+# install.packages('ggthemes')
+library(ggthemes)
+{r2_glm_all<-r2_gam_all<-r2_gbm1_all<-c()
+rep<-2000
+for (i in 1:rep){
+#print the index to see the iteration
+print(i)
+#Creare a 70 sample(with replacement) from the original data
+rand<- sample(1:nrow(data_reg), size = 0.8*nrow(data_reg))
+#70% for the train/calibration data
+cal<- data_reg[rand,]
+#remaining 30 for the test/evaluation data
+eva<-data_reg[-rand,]
+####GLM
+#perform a Genelralised Linear Model(GLM)(with redundant predictors)
+# sales_glm <- glm(Total.Volume.Sales~Weighted.Average.Price+
+#                    Distribution + Price.Promotion.1+ Price.Promotion.2+
+#                    On.pack.Promo.Offer+Rebrand+ TV + Radio+ Press+
+#                    Outdoor+ Online, data=cal, family = "gaussian")
+#GLM withiout redundant predictors
+sales_glm<-glm(Total.Volume.Sales~ Weighted.Average.Price + Price.Promotion.1 +
+Rebrand + TV + Outdoor,data=cal,family ="gaussian")
+#predict into the test/evaluation data
+sales_glm_pred<- predict.glm(object = sales_glm, newdata = eva, type="response")
+#find the correlation between the train and test data.
+cor_glm_sales<-cor(sales_glm_pred, eva$Total.Volume.Sales, method = "pearson")
+r2_glm_all[i]<-cor_glm_sales^2
+#########
+#mean error and root mean square error
+#calculate the mean error
+error_sales_glm<- cbind.data.frame(sales_glm_pred, eva$Total.Volume.Sales)
+colnames(error_sales_glm) <- c("pred_glm_sales", "obs_sales")
+#Use the function created earlier to calulcate the mean error and RMSE.
+#Mean error
+sales_glm_me <- mean_error(error_sales_glm$obs_sales, error_sales_glm$pred_glm_sales)
+#RMSE
+sales_glm_rmse <- rmse(error_sales_glm$obs_sales, error_sales_glm$pred_glm_sales)
+#combine the dataframe of the mean error and RMSE
+me_rmse_sales_glm <- rbind.data.frame(sales_glm_me, sales_glm_rmse)
+#Change the column name to something more descriptive.
+colnames(me_rmse_sales_glm)<- c("sales_glm")
+#GAM
+sales_gam <- gam(Total.Volume.Sales~ s(Weighted.Average.Price, k=3) +
+s(Distribution , k=3) + Price.Promotion.1 +
+Price.Promotion.2 + On.pack.Promo.Offer +
+Rebrand+ TV + Radio+ Press+
+Outdoor+ s(Online, k=3), data = cal, family = "gaussian")
+sales_gam_pred <- predict.gam(sales_gam, newdata = eva, type = "response")
+obs_pred_sales_gam<- cbind.data.frame(sales_gam_pred, eva$Total.Volume.Sales)
+colnames(obs_pred_sales_gam) <- c("pred_gam_sales", "obs_gam_sales")
+#you can just calclate the correlation straight away
+cor_gam_sales <- cor(sales_gam_pred, eva$Total.Volume.Sales, method = "pearson")
+r2_gam_all[i]<-cor_gam_sales^2
+#########
+#mean error and root mean square error
+error_sales_gam<- cbind.data.frame(sales_gam_pred, eva$Total.Volume.Sales)
+colnames(error_sales_gam) <- c("pred_gam_sales", "obs_sales")
+sales_gam_me <- mean_error(error_sales_gam$obs_sales, error_sales_gam$pred_gam_sales)
+sales_gam_rmse <- rmse(error_sales_gam$obs_sales, error_sales_gam$pred_gam_sales)
+me_rmse_sales_gam <- rbind.data.frame(sales_gam_me, sales_gam_rmse)
+colnames(me_rmse_sales_gam)<- c("sales_gam")
+###################################################################
+#using the normal gbm, package.
+#GBM
+# sales_gbm1 <- gbm.step(data=cal, gbm.x =c('Weighted.Average.Price', 'Distribution', 'Price.Promotion.1',
+#                                           'Price.Promotion.2', 'On.pack.Promo.Offer', 'Rebrand', 'TV', 'Radio',
+#                                           'Press', 'Outdoor', 'Online'), gbm.y = "Total.Volume.Sales",
+#                        bag.fraction=0.75, learning.rate = 0.001,
+#                        family="gaussian",n.trees=50, n.folds=10,
+#                        max.trees = 1000, tree.complexity = 6)
+sales_gbm1<-gbm(formula = Total.Volume.Sales~., data=cal,
+distribution = "gaussian",n.trees = 2300, shrinkage = 0.001, interaction.depth = 6,
+bag.fraction = 0.75, verbose = F)
+# cor(sales_gbm1_pred, data3$Total.Volume.Sales)
+best.iter<-gbm.perf(sales_gbm1, plot.it = F, method = "OOB")
+# sales_gbm1_pred <- predict.gbm(sales_gbm1, newdata = eva, n.trees=sales_gbm1$n.trees, type = "response")
+sales_gbm1_pred<- predict.gbm(object = sales_gbm1, newdata = eva, best.iter, type="response")
+cor_gbm1_sales <- cor(sales_gbm1_pred, eva$Total.Volume.Sales, method = "pearson")
+r2_gbm1_all[i]<-cor_gbm1_sales^2
+#########
+#mean error and root mean square error
+error_sales_gbm1<- cbind.data.frame(sales_gbm1_pred, eva$Total.Volume.Sales)
+colnames(error_sales_gbm1) <- c("pred_gbm1_sales", "obs_sales")
+sales_gbm1_me <- mean_error(error_sales_gbm1$obs_sales, error_sales_gbm1$pred_gbm1_sales)
+sales_gbm1_rmse <- rmse(error_sales_gbm1$obs_sales, error_sales_gbm1$pred_gbm1_sales)
+me_rmse_sales_gbm1 <- rbind.data.frame(sales_gbm1_me, sales_gbm1_rmse)
+colnames(me_rmse_sales_gbm1)<- c("sales_gbm1")
+}}
+#load required modules
+library(spdep)
+library(foreign)
+#load required modules
+install.packages("spdep")
+library(spdep)
+library(foreign)
+#read data
+boston <- read.dbf(file="boston.dbf")
+library(spdep)
+library(foreign)
+#read data
+boston <- read.dbf(file="boston.dbf")
+#boston file path
+boston_fp<-"C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/Exercise3/boston/boston.dbf"
+#read data
+boston <- read.dbf(file=boston_fp)
+#attach data to memory
+attach(boston)
+#inspect data
+names(boston)
+summary(boston)
+summary(AGE)
+#inspect data
+names(boston)
+summary(boston)
+summary(AGE)
+hist(AGE)
+plot(CRIM, CMEDV, main="median house value vs crime")
+#load spatial weights
+geoda_weights <- read.gal("boston_queen.gal")
+setwd("C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/Exercise3")
+#load required modules
+install.packages("spdep")
+library(spdep)
+library(foreign)
+#read data
+boston <- read.dbf(file="boston")
+#read data
+boston <- read.dbf(file="boston.dbf")
+#read data
+boston <- read.dbf(file="boston.dbf")
+#read data
+boston <- read.dbf(file=boston_fp)
+#attach data to memory
+attach(boston)
+#inspect data
+names(boston)
+summary(boston)
+summary(AGE)
+hist(AGE)
+plot(CRIM, CMEDV, main="median house value vs crime")
+#load spatial weights
+geoda_weights <- read.gal("boston_queen.gal")
+#visualize connectivity
+plot.nb(geoda_weights,cbind(x,y),col="red")
+#convert weights to R-workable format
+weights <- nb2listw(geoda_weights)
+#for extra explorations:
+#make a sparse spatial weights matrix
+W <- as(as_dgRMatrix_listw(weights), "CsparseMatrix")
+#display the matrix
+W
+image(W)
+#help file of R's linear regression command
+help(lm)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT)
+#summarize the OLS model
+summary(OLS)
+#Lagrange multiplier tests for selecting spatial regression model
+LMtests <- lm.LMtests(OLS, weights, test="all")
+print(LMtests)
+#run a spatial error model
+sp.err <- errorsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT, data=boston, weights)
+#summarize the results
+sum.err <- summary(sp.err, Nagelkerke=TRUE)
+print(sum.err, signif.stars=TRUE)
+#run a spatial Durbin model
+#first create a sparse matrix and calculate the traces of powers - can be useful for large samples
+W <- as(as_dgRMatrix_listw(weights), "CsparseMatrix")
+tr <- trW(W, type="MC")
+sp.durb <- lagsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT, data=boston, weights,
+type="mixed", method="MC", trs=tr)
+#test the common factor hypothesis
+CFH <- LR.sarlm(sp.durb, sp.err)
+print(CFH)
+#preliminary summary
+summary(sp.durb)
+#simulate spatial impacts
+impacts(sp.durb, listw=weights)
+#more detail (by simulating also the p-values of the spatial impacts and by using the traces of the spatial weights matrix)
+impacts.durb <- impacts(sp.durb, tr=tr, R=100, zstats=TRUE)
+summary(impacts.durb, zstats=TRUE)
+#assume we want to run a spatial lag model, regardless of the LM tests reults
+sp.lag <- lagsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT, data=boston, weights)
+#summarize the results
+sum.lag <- summary(sp.lag, Nagelkerke=TRUE)
+print(sum.lag, signif.stars=TRUE)
+#spatial impacts
+impacts.lag <- impacts(sp.lag, tr=tr, R=100, zstats=TRUE)
+summary(impacts.lag, zstats=TRUE)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+setwd("C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/Exercise3/")
+#load spatial weights
+geoda_weights <- read.gal("boston_queen.gal")
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+setwd("C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/Exercise3")
+#load spatial weights
+geoda_weights <- read.gal("boston_queen.gal")
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt")
+geoda_5nn
+View(geoda_5nn)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt")
+geoda_10nn <- read.gwt2nb("boston_10nn.gwt", region.id=POLY_ID)
+# geoda_10nn <- read.gwt2nb("boston_10nn.gwt", region.id=POLY_ID)
+geoda_5nn <- read.gwt2nb("boston_10nn.gwt")
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+# geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID) #this does not work with the POLY_ID
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt")
+# geoda_10nn <- read.gwt2nb("boston_10nn.gwt", region.id=POLY_ID)
+geoda_10nn <- read.gwt2nb("boston_10nn.gwt")
+weights.5nn <- nb2listw(geoda_5nn)
+weights.10nn <- nb2listw(geoda_10nn)
+#correlogram for median value (note that this command needs the nb weights and also to set a zero neighbors policy)
+plot(sp.correlogram(geoda_5nn, CMEDV, order=5, method = "I", zero.policy = T))
+plot(sp.correlogram(geoda_10nn, CMEDV, order=5, method = "I", zero.policy = T))
+plot(sp.correlogram(geoda_10nn, CMEDV, order=10, method = "I", zero.policy = T))
+plot(sp.correlogram(geoda_10nn, CMEDV, order=11, method = "I", zero.policy = T))
+plot(sp.correlogram(geoda_10nn, CMEDV, order=5, method = "I", zero.policy = T))
+#estimate a SAC model (just for demonstrating the syntax, but note that it will also need spatial impacts simulation)
+SAC <- sacsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT,
+data=boston, weights.5nn,  weights.10nn)
+the above parameters are
+#controversial and maybe not necessary.
+#the weights.5nn,  weights.10nn used in the above parameters are
+#controversial and maybe not necessary.
+#the weights.5nn,  weights.10nn used in the above parameters are
+#controversial and maybe not necessary.
+setwd("C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/Exercise3")
+#load required modules
+install.packages("spdep")
+library(spdep)
+library(foreign)
+#boston file path
+boston_fp<-"C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/Exercise3/boston/boston.dbf"
+#read data
+boston <- read.dbf(file=boston_fp)
+#attach data to memory
+attach(boston)
+#inspect data
+names(boston)
+summary(boston)
+summary(AGE)
+hist(AGE)
+plot(CRIM, CMEDV, main="median house value vs crime")
+#load spatial weights
+geoda_weights <- read.gal("boston_queen.gal")
+cbind(x,y)
+#visualize connectivity
+plot.nb(geoda_weights,cbind(x,y),col="blue")
+#visualize connectivity
+plot.nb(geoda_weights,cbind(x,y),col="red")
+geoda_weights
+#visualize connectivity
+plot.nb(geoda_weights,col="red")
+#visualize connectivity
+plot.nb(geoda_weights,cbind(y,x),col="red")
+#visualize connectivity
+plot.nb(geoda_weights,cbind(x,y),col="red")
+# the imported weights are in fact something called a “neighbors list”. R understands a
+# different version called “listw”, and so you need to make this conversion. To achieve that for the
+# two weight files imported above, type:
+#convert weights to R-workable format
+weights <- nb2listw(geoda_weights)
+weights
+# the imported weights are in fact something called a “neighbors list”. R understands a
+# different version called “listw”, and so you need to make this conversion. To achieve that for the
+# two weight files imported above, type:
+#convert weights to R-workable format
+weights <- nb2listw(geoda_weights)
+#for extra explorations:
+#make a sparse spatial weights matrix
+W <- as(as_dgRMatrix_listw(weights), "CsparseMatrix")
+#display the matrix
+W
+image(W)
+#help file of R's linear regression command
+help(lm)
+#run a non-spatial OLS (Ordinary Least Squares) model
+OLS <- lm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT)
+#summarize the OLS model
+summary(OLS)
+#Lagrange multiplier tests for selecting spatial regression model
+LMtests <- lm.LMtests(OLS, weights, test="all")
+LMtests
+print(LMtests)
+#run a spatial error model
+sp.err <- errorsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT, data=boston, weights)
+#summarize the results
+sum.err <- summary(sp.err, Nagelkerke=TRUE)
+print(sum.err, signif.stars=TRUE)
+#run a spatial Durbin model
+#first create a sparse matrix and calculate the traces of powers - can be useful for large samples
+W <- as(as_dgRMatrix_listw(weights), "CsparseMatrix")
+tr <- trW(W, type="MC")
+sp.durb <- lagsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT, data=boston, weights,
+type="mixed", method="MC", trs=tr)
+#test the common factor hypothesis
+CFH <- LR.sarlm(sp.durb, sp.err)
+print(CFH)
+#preliminary summary
+summary(sp.durb)
+#simulate spatial impacts
+impacts(sp.durb, listw=weights)
+#more detail (by simulating also the p-values of the spatial impacts and by using the traces of the spatial weights matrix)
+impacts.durb <- impacts(sp.durb, tr=tr, R=100, zstats=TRUE)
+summary(impacts.durb, zstats=TRUE)
+#assume we want to run a spatial lag model, regardless of the LM tests reults
+sp.lag <- lagsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT, data=boston, weights)
+#summarize the results
+sum.lag <- summary(sp.lag, Nagelkerke=TRUE)
+print(sum.lag, signif.stars=TRUE)
+#spatial impacts
+impacts.lag <- impacts(sp.lag, tr=tr, R=100, zstats=TRUE)
+summary(impacts.lag, zstats=TRUE)
+#SAC/SARMA and weights explorations
+#import and convert three alternative weight files
+# geoda_5nn <- read.gwt2nb("boston_5nn.gwt", region.id=POLY_ID) #this does not work with the POLY_ID
+geoda_5nn <- read.gwt2nb("boston_5nn.gwt")
+# geoda_10nn <- read.gwt2nb("boston_10nn.gwt", region.id=POLY_ID)
+geoda_10nn <- read.gwt2nb("boston_10nn.gwt")
+weights.5nn <- nb2listw(geoda_5nn)
+weights.10nn <- nb2listw(geoda_10nn)
+#correlogram for median value (note that this command needs the nb weights and also to set a zero neighbors policy)
+plot(sp.correlogram(geoda_5nn, CMEDV, order=5, method = "I", zero.policy = T))
+plot(sp.correlogram(geoda_10nn, CMEDV, order=5, method = "I", zero.policy = T))
+#estimate a SAC model (just for demonstrating the syntax, but note that it will also need spatial impacts simulation)
+SAC <- sacsarlm(CMEDV ~ CRIM + CHAS + NOX + RM + DIS + RAD + TAX + PTRATIO + B + LSTAT,
+data=boston, weights.5nn,  weights.10nn)
+#set working directory
+setwd("C:/Users/oyeda/Desktop/APPLIED_SPATIAL_STAT/Excerise4/"
+)
+#Install and/or load libraries
+library(spdep)
+library(maptools)
+library(geos)
+library(spgwr)
+#Install and/or load libraries
+install.packages("geos", "spgwr")
+#Install and/or load libraries
+install.packages("geos")
+#Install and/or load libraries
+install.packages("rgeos")
+library(spdep)
+library(maptools)
+library(rgeos)
+#Install and/or load libraries
+install.packages("spgwr")
+#Install and/or load libraries
+install.packages("spgwr")
+library(spdep)
+library(maptools)
+library(rgeos)
+library(spgwr)
+# Import the shapefile columbus as a spatial polygons data-frame:
+columbus <- readShapeSpatial("columbus.shp")
+columbus
+# You can summarize the attribute data as usual by running the command:
+summary(columbus),
+# You can summarize the attribute data as usual by running the command:
+summary(columbus)
+# You can overview your dependent variable (CRIME) and polygon geometry by running the
+# command (with its default color scale and a couple of custom-defined titles):
+spplot(columbus, "CRIME", main="Columbus, OH", sub="Residential
+burglaries and vehicle thefts per 1000 households")
+# Run an ordinary least squares (OLS) regression to see the average effects of INC, HOVAL,
+# and DISCBD on CRIM for the whole study area:
+OLS <- lm(CRIME ~ INC + HOVAL + DISCBD, data=columbus)
+summary(OLS)
+bw <- gwr.sel(CRIME ~ INC + HOVAL + DISCBD, data=columbus, method="aic")
+# Estimation of a GWR model. After finding the optimal bandwidth, you can estimate a GWR
+# model by running the command gwr. The note about the longlat setting is valid for this command
+# as well. In our case, the syntax will be:
+gwr <- gwr(CRIME ~ INC + HOVAL + DISCBD, data=columbus, bandwidth=bw,
+hatmatrix=TRUE)
+# You can display the results by typing gwr (i.e. no summary command is needed):
+gwr
+# Mapping the estimations. The gwr dataframe borrows geographical structure from its input
+# data (columbus.shp). This means that you can create thematic maps of the local coefficients by
+# using the spplot command. For our three explanatory variables, the commands will be:
+spplot(gwr$SDF, "INC", main="Income")
+spplot(gwr$SDF, "HOVAL", main="Housing value")
+spplot(gwr$SDF, "DISCBD", main="Distance to the CBD")
+# For the local R-squared of the estimates, the command will be:
+spplot(gwr$SDF, "localR2", main="local R-squared")
+# For the local R-squared of the estimates, the command will be:
+spplot(gwr$SDF, "localR2", main="local R-squared")
+# Calculate t-values for assessing the significance of the estimated effects. The GWR
+# estimations also include the standard errors of the estimated coefficients. If you divide the estimated
+# coefficient value by its standard error, you derive a t-statistic score:
+gwr$SDF$INC_t <- gwr$SDF$INC/gwr$SDF$INC_se
+gwr$SDF$HOVAL_t <- gwr$SDF$HOVAL/gwr$SDF$HOVAL_se
+gwr$SDF$DISCBD_t <- gwr$SDF$DISCBD/gwr$SDF$DISCBD_se
+# And plot the three significance maps in a common figure:
+spplot(gwr$SDF, c("INC_t", "HOVAL_t", "DISCBD_t"))
+# And plot the three significance maps in a common figure:
+spplot(gwr$SDF, c("INC_t", "HOVAL_t", "DISCBD_t"))
+gwr$SDF$INC_pctdelta <- ((gwr$SDF$INC + 0.9677)/-0.9677)*100
+And the thematic map with a custom color ramp:
+spplot(gwr$SDF, "INC_pctdelta", col.regions=cm.colors(20), main="INC",
+sub="% deviation from global mean value of 0.9677")
+# Save the GWR results as a new shapefile. You will want to save the estimations in a new
+# shapefile (they are not attached to your source columbus file) for more analytical or mapping
+# flexibility. For instance, you may want to use more advanced mapping software or to analyze the
+# estimations with GeoDa. The command to do the exporting is:
+writeSpatialShape(gwr$SDF, "columbus_gwr")
+dgs<- read.dbf("Desktop/Hki_population_by_region.dbf")
+dgs<- read.dbf("Hki_population_by_region.dbf")
+dgs<- read.dbf("C:/Users/oyeda/Desktop/Hki_population_by_region.dbf")
+dgs
+View(dgs)
+View(dgs)
+plot(dgs)
